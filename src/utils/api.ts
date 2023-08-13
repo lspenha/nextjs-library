@@ -3,7 +3,7 @@ import { ResponseBookItem } from "../interface/global";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export const API_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 
 interface ApiResponse {
   items: ResponseBookItem[];
