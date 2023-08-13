@@ -14,6 +14,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
     onSearch(query, filters);
   }, [onSearch, query, filters]);
 
+  const isQueryEmpty = query.trim() === "";
+
   return (
     <div className="p-4 bg-white rounded-lg shadow-md mb-4">
       <div className="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4">
@@ -33,12 +35,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
           <option value="full">Todos</option>
           <option value="partial">Parcial</option>
           <option value="ebooks">eBooks</option>
-          <option value="free-ebooks">eBooks gratuitos </option>
-          <option value="paid-ebooks">eBooks Pagos</option>
+          <option value="free-ebooks">eBooks gratuitos</option>
+          <option value="paid-ebooks">eBooks pagos</option>
         </select>
         <button
           onClick={handleSearch}
-          className="w-full md:w-auto px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600"
+          className={`w-full md:w-auto px-4 py-2 text-white rounded-md ${
+            isQueryEmpty
+              ? "bg-gray-300 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
+          disabled={isQueryEmpty}
         >
           Pesquisar
         </button>
