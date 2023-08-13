@@ -1,38 +1,52 @@
 import axios from "axios";
-import { ResponseBookItem } from "./Types/global";
+import { ResponseBookItem } from "../interface/global";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-const API_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
+export const API_BASE_URL = "https://www.googleapis.com/books/v1/volumes";
 
 interface ApiResponse {
   items: ResponseBookItem[];
 }
 
+interface FilterProps {
+  q: string;
+  startIndex: number;
+  maxResults: number;
+  filter?: string;
+}
+
 export const searchBooks = async (
   query: string,
+  filters: string,
   startIndex: number,
-  category: string,
-  startDate: string,
-  endDate: string,
 ): Promise<ResponseBookItem[]> => {
+  const params: FilterProps = {
+    q: query,
+    startIndex: startIndex,
+    maxResults: 9,
+  };
+
+  if (filters) {
+    params.filter = filters;
+  }
+
   try {
     const response = await axios.get<ApiResponse>(API_BASE_URL, {
-      params: {
-        q: query,
-        subject: category,
-        after: startDate,
-        before: endDate,
-        startIndex: startIndex,
-        maxResults: 9,
-      },
+      params,
     });
 
     if (response.data && response.data.items) {
       return response.data.items;
     }
 
+    toast.error("Nenhum livro foi encontrado com este título.", {
+      autoClose: 3000,
+    });
+
     return [];
   } catch (error) {
-    console.error("Erro na busca de livros:", error);
+    toast.error("Erro na busca de livros", { autoClose: 3000 });
     return [];
   }
 };

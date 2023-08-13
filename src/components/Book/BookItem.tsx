@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Book } from "@/utils/Types/global";
+import { Book } from "@/interface/global";
 
 interface BookItemProps {
   id: string;
@@ -21,7 +21,6 @@ export const BookItem: React.FC<BookItemProps> = ({ book, id }) => {
             className="mb-2 rounded-lg hover:opacity-75"
           />
         </div>
-
         <h2 className="text-lg font-semibold mb-1">{book.title}</h2>
         <p className="text-gray-500">
           Author: {book.authors ? book.authors : "N/A"}

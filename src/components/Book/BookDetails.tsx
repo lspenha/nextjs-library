@@ -1,6 +1,8 @@
 import React from "react";
 import Image from "next/image";
-import { Book } from "@/utils/Types/global";
+import { Book } from "@/interface/global";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 interface BookDetailsProps {
   book: Book;
@@ -10,9 +12,11 @@ export const BookDetails: React.FC<BookDetailsProps> = ({ book }) => {
   const unavailable = "N/A";
   return (
     <div className="md:flex items-start justify-center py-12 2xl:px-20 md:px-6 px-4">
-      <div className="xl:w-2/6 lg:w-2/5 w-80 md:block hidden">
+      <Link href="/">
+        <ArrowLeftIcon className="h-10 w-10 mr-5" />
+      </Link>
+      <div className="md:block hidden">
         <Image
-          className="w-1/3"
           alt={book.title}
           src={book.imageLinks ? book.imageLinks.thumbnail : "/no-photo.jpg"}
           width={200}
@@ -27,7 +31,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({ book }) => {
           </h2>
         </div>
         <div>
-          <p className="xl:pr-48 text-base lg:leading-tight leading-normal mt-7">
+          <p className="text-base lg:leading-tight leading-normal mt-7 w-full">
             {book.description ? book.description : unavailable}
           </p>
           <p className="text-base leading-4 mt-7">
@@ -37,7 +41,7 @@ export const BookDetails: React.FC<BookDetailsProps> = ({ book }) => {
             Língua: {book.language ? book.language.toUpperCase() : unavailable}
           </p>
           <p className="text-base leading-4 mt-4">
-            Altura: {book.dimensions ? book.dimensions.height : unavailable}s
+            Altura: {book.dimensions ? book.dimensions.height : unavailable}
           </p>
           <p className="text-base leading-4 mt-4">
             Largura: {book.dimensions ? book.dimensions.width : unavailable}

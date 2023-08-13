@@ -2,9 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import Link from "next/link";
 import axios from "axios";
-import { BookDetails } from "@/components";
+import { BookDetails, Loading } from "@/components";
+import { API_BASE_URL } from "@/utils/api";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BookDetailsPage = () => {
   const router = usePathname();
@@ -17,26 +19,27 @@ const BookDetailsPage = () => {
   useEffect(() => {
     if (bookId) {
       axios
-        .get(`https://www.googleapis.com/books/v1/volumes/${bookId}`)
+        .get(`${API_BASE_URL}/${bookId}`)
         .then((response) => {
           setBookValueDetails(response.data);
         })
-        .catch((error) => {
-          console.error("Error fetching book details:", error);
+        .catch(() => {
+          toast.error("Erros na busca pelos detalhes do livro!", {
+            autoClose: 3000,
+          });
           setBookValueDetails(null);
         });
     }
   }, [bookId]);
 
   if (!bookValueDetails) {
-    return <p>Loading...</p>;
+    return <Loading />;
   }
 
   const { volumeInfo } = bookValueDetails;
 
   return (
     <div>
-      <Link href="/">Back to Home</Link>
       <BookDetails book={volumeInfo}></BookDetails>
     </div>
   );

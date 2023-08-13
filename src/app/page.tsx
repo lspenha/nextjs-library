@@ -2,15 +2,13 @@
 
 import React, { useState, useEffect, useCallback } from "react";
 import { BookList, Loading, SearchBar } from "@/components";
-import { ResponseBookItem } from "@/utils/Types/global";
+import { ResponseBookItem } from "@/interface/global";
 import { searchBooks } from "@/utils/api";
 
 const IndexPage: React.FC = () => {
-  const [searchQuery, setSearchQuery] = useState("a");
+  const [query, setQuery] = useState("*");
+  const [filters, setFilters] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [category, setCategory] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
   const [searchResults, setSearchResults] = useState<ResponseBookItem[]>([]);
   const [startIndex, setStartIndex] = useState(0);
 
@@ -18,27 +16,14 @@ const IndexPage: React.FC = () => {
 
   useEffect(() => {
     async function fetchBooks() {
-      try {
-        setIsLoading(true);
-        const response = await searchBooks(
-          searchQuery,
-          startIndex,
-          category,
-          startDate,
-          endDate,
-        );
-
-        setSearchResults(response || []);
-      } catch (error) {
-        console.error("Erro ao buscar livros:", error);
-        setSearchResults([]);
-      } finally {
-        setIsLoading(false);
-      }
+      setIsLoading(true);
+      const response = await searchBooks(query, filters, startIndex);
+      setSearchResults(response || []);
+      setIsLoading(false);
     }
 
     fetchBooks();
-  }, [searchQuery, category, startDate, endDate, startIndex]);
+  }, [query, filters, startIndex]);
 
   const handleNextPage = useCallback(
     () => setStartIndex(startIndex + maxResults),
@@ -53,18 +38,13 @@ const IndexPage: React.FC = () => {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-3xl font-semibold mb-4">Lista de Livros</h1>
+      <h1 className="text-4xl sm:text-5xl md:text-6xl text-center font-bold mb-6">
+        Lista de Livros
+      </h1>
       <SearchBar
-        onSearch={(
-          query,
-          selectedCategory,
-          selectedStartDate,
-          selectedEndDate,
-        ) => {
-          setSearchQuery(query);
-          setCategory(selectedCategory);
-          setStartDate(selectedStartDate);
-          setEndDate(selectedEndDate);
+        onSearch={(query, filters) => {
+          setQuery(query);
+          setFilters(filters);
           setStartIndex(0);
         }}
       />
