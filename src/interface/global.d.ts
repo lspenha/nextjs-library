@@ -1,6 +1,12 @@
+export interface ApiResponse {
+  items: ResponseBookItem[];
+  totalItems: number;
+}
+
 export interface ResponseBookItem {
   id: string;
   volumeInfo: Book;
+  totalItems: number;
 }
 
 export interface Book {

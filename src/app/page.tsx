@@ -9,6 +9,7 @@ const IndexPage: React.FC = () => {
   const [query, setQuery] = useState("*");
   const [filters, setFilters] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [searchTotalItems, setSearchTotalItems] = useState(0);
   const [searchResults, setSearchResults] = useState<ResponseBookItem[]>([]);
   const [startIndex, setStartIndex] = useState(0);
 
@@ -18,10 +19,10 @@ const IndexPage: React.FC = () => {
     async function fetchBooks() {
       setIsLoading(true);
       const response = await searchBooks(query, filters, startIndex);
-      setSearchResults(response || []);
+      setSearchResults(response.books || []);
+      setSearchTotalItems(response.totalItems);
       setIsLoading(false);
     }
-
     fetchBooks();
   }, [query, filters, startIndex]);
 
@@ -49,7 +50,7 @@ const IndexPage: React.FC = () => {
         }}
       />
       {isLoading ? <Loading /> : <BookList books={searchResults} />}
-      {searchResults.length > 1 && (
+      {searchTotalItems > 9 && (
         <div className="mt-4 flex justify-between">
           <button
             onClick={handlePreviousPage}

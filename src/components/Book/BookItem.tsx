@@ -10,7 +10,7 @@ interface BookItemProps {
 
 export const BookItem: React.FC<BookItemProps> = ({ book, id }) => {
   return (
-    <div className="bg-white p-4 shadow-md rounded-lg">
+    <div className="bg-white p-4 shadow-md rounded-lg sm:flex sm:flex-col sm:items-center">
       <Link href={`/details/${id}`}>
         <div className="flex justify-center items-center">
           <Image
@@ -21,8 +21,10 @@ export const BookItem: React.FC<BookItemProps> = ({ book, id }) => {
             className="mb-2 rounded-lg hover:opacity-75"
           />
         </div>
-        <h2 className="text-lg font-semibold mb-1">{book.title}</h2>
-        <p className="text-gray-500">
+        <h2 className="text-lg font-semibold mb-1 text-center sm:text-left">
+          {book.title}
+        </h2>
+        <p className="text-gray-500 text-center sm:text-left">
           Author: {book.authors ? book.authors : "N/A"}
         </p>
       </Link>
