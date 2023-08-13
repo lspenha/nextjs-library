@@ -1,7 +1,7 @@
+import { ToastContainer } from "@/components";
 import "../style/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import ToastContainer from "@/components/ToastContainer";
 
 export const metadata: Metadata = {
   title: {
