@@ -23,7 +23,6 @@ Para ter acesso aos arquivos do projeto você pode clonar usando o seguinte coma
 
 ```
 git clone https://github.com/lspenha/nextjs-library
-
 ```
 
 ### ▶️ Rodando o Projeto
@@ -35,7 +34,6 @@ npm install
 yarn install
 # or
 pnpm install
-
 ```
 
 Crie um arquivo `.env` semelhante a [`.env.example`](https://github.com/lspenha/nextjs-library/blob/main/.env.example).
@@ -47,7 +45,6 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-
 ```
 
 ## Deploy on Vercel
